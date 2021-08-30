@@ -27,7 +27,11 @@ app.use("/style.css", express.static(__dirname + '/style.css'));
 app.use("/script.js", express.static(__dirname + '/script.js'));
 
 app.use(express.json());
-app.use(cors()); 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+}); 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use(routes);
 app.listen(port, () => {
